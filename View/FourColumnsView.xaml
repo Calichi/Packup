@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Grid xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+      x:Class="Packup.View.FourColumnsView"
+      x:Name="me"
+      ColumnDefinitions="*,*,*,*">
+
+    <Label BindingContext="{Reference me}" Text="{Binding FirstText}"/>
+
+    <Label Text="{Binding SecondText}" Grid.Column="1" Style="{Binding TextStyle}"/>
+
+    <Label Text="{Binding ThirdText}" Grid.Column="2" Style="{Binding TextStyle}"/>
+
+    <Label Text="{Binding FourthText}" Grid.Column="3" Style="{Binding TextStyle}"/>
+
+</Grid>

@@ -6,9 +6,21 @@
     xmlns:page="clr-namespace:Packup.Page"
     Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent
-        Title="Tarima en curso"
-        ContentTemplate="{DataTemplate page:FirstPalletPage}"
-        Route="firstPallet" />
+    <TabBar>
+        <ShellContent
+            Title="Inicio"
+            ContentTemplate="{DataTemplate page:FirstPalletPage}"
+            Route="firstPallet" />
+
+        <ShellContent
+            Title="Operaciones"
+            ContentTemplate="{DataTemplate page:OperationsPage}"
+            Route="operations"/>
+
+        <ShellContent
+            Title="Operación"
+            ContentTemplate="{DataTemplate page:OperationPage}"
+            Route="operation"/>
+    </TabBar>
 
 </Shell>

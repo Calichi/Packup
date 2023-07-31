@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:view="clr-namespace:Packup.View"
+             xmlns:mv="clr-namespace:Packup.ModelView"
+             xmlns:db="clr-namespace:Packup.Model.Database"
+             x:Class="Packup.Page.OperationsPage"
+             Title="OperationsPage">
+
+    <ContentPage.Resources>
+        <db:LoteEntity x:Key="loteEntityConverter"/>
+    </ContentPage.Resources>
+
+    <ContentPage.BindingContext>
+        <Binding Path="SharedModelView">
+            <Binding.Source>
+                <mv:OperationsSharedModelView/>
+            </Binding.Source>
+        </Binding>
+    </ContentPage.BindingContext>
+
+
+    <ListView ItemTemplate="{DataTemplate view:LoteView}"
+              ItemsSource="{Binding Operations}"
+              RowHeight="60"
+              SelectedItem="{Binding SelectedLote, Mode=OneWayToSource}"/>
+
+</ContentPage>
