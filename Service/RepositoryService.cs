@@ -1,6 +1,5 @@
 ﻿using SQLite;
-using Packup.Model.Database;
-using System.Diagnostics;
+using Packup.Model.Entity;
 
 namespace Packup.Service;
 
@@ -17,33 +16,33 @@ public class RepositoryService
         string dbPath = Path.Combine(FileSystem.AppDataDirectory, "database.db3");
         database = new SQLiteAsyncConnection(dbPath);
 
-        await database.CreateTableAsync<LoteEntity>();
-        await database.CreateTableAsync<TagsEntity>();
+        await database.CreateTableAsync<Lote>();
+        await database.CreateTableAsync<Tags>();
+        await database.CreateTableAsync<State>();
     }
 
     private RepositoryService() {
     }
 
-    public async Task SaveAsync(LoteEntity lote) {
+    public async Task SaveAsync<T>(T data) where T : Base {
         await Init();
-        await database.InsertAsync(lote);
+        await database.InsertAsync(data);
     }
 
-    public async Task SaveAsync(TagsEntity tags) {
+    public async Task<List<Lote>> GetOperations() {
         await Init();
-        await database.InsertAsync(tags);
+        return await database.Table<Lote>().ToListAsync();
     }
 
-    public async Task<List<LoteEntity>> GetOperations() {
+    public async Task<List<T>> GetMembers<T>(Lote lote) where T : LoteMember, new() {
         await Init();
-        return await database.Table<LoteEntity>().ToListAsync();
+        List<T> members = await database.Table<T>().ToListAsync();
+        return (from member in members
+                where member.LoteId == lote.Id
+                select member).ToList();
     }
 
-    public async Task<List<TagsEntity>> GetTags(LoteEntity lote) {
-        await Init();
-        List<TagsEntity> allTags =  await database.Table<TagsEntity>().ToListAsync();
-        return (from tags in allTags
-                where tags.LoteId == lote.Id
-                select tags).ToList();
+    public void GetMembers<T>(Lote lote, Action<Task<List<T>>> receiver) where T : LoteMember, new() {
+        GetMembers<T>(lote).ContinueWith(receiver);
     }
 }

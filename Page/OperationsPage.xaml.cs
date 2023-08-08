@@ -6,4 +6,10 @@ public partial class OperationsPage : ContentPage
 	{
 		InitializeComponent();
 	}
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        ((ModelView.Core)BindingContext)?.LoadOperations();
+    }
 }

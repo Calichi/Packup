@@ -3,26 +3,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:view="clr-namespace:Packup.View"
              xmlns:mv="clr-namespace:Packup.ModelView"
-             xmlns:db="clr-namespace:Packup.Model.Database"
+             xmlns:db="clr-namespace:Packup.Model.Entity"
              x:Class="Packup.Page.OperationsPage"
-             Title="OperationsPage">
-
-    <ContentPage.Resources>
-        <db:LoteEntity x:Key="loteEntityConverter"/>
-    </ContentPage.Resources>
+             Title="Operaciones">
 
     <ContentPage.BindingContext>
         <Binding Path="SharedModelView">
             <Binding.Source>
-                <mv:OperationsSharedModelView/>
+                <mv:CoreShared/>
             </Binding.Source>
         </Binding>
     </ContentPage.BindingContext>
 
 
-    <ListView ItemTemplate="{DataTemplate view:LoteView}"
+    <ListView x:Name="list" ItemTemplate="{DataTemplate view:LoteView}"
               ItemsSource="{Binding Operations}"
               RowHeight="60"
-              SelectedItem="{Binding SelectedLote, Mode=OneWayToSource}"/>
+              SelectedItem="{Binding SelectedLote, Mode=TwoWay}"/>
 
 </ContentPage>

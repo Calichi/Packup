@@ -9,7 +9,7 @@
     <ContentPage.BindingContext>
         <Binding Path="SharedModelView">
             <Binding.Source>
-                <mv:BeginParametersSharedModelView/>
+                <mv:CoreShared/>
             </Binding.Source>
         </Binding>
     </ContentPage.BindingContext>
@@ -31,19 +31,12 @@
     <Grid RowDefinitions="8*,2*"
           Margin="10,5">
 
-        <VerticalStackLayout Style="{x:StaticResource centered}">
+        <VerticalStackLayout Style="{x:StaticResource centered}"
+                             BindingContext="{Binding LoteMetricsNumeration}">
 
             <Picker x:Name="palletPicker"
-                    ItemsSource="{Binding PalletValues}"
+                    ItemsSource="{Binding PalletsByLote}"
                     Title="Tarima"/>
-
-            <Label Text="{Binding LastPallet}"
-                   VerticalOptions="Center" 
-                   HorizontalOptions="Center" />
-
-            <Label Text="{Binding FirstPallet}"
-                   VerticalOptions="Center" 
-                   HorizontalOptions="Center" />
 
         </VerticalStackLayout>
 

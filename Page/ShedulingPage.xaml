@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:mv="clr-namespace:Packup.ModelView"
+             xmlns:view="clr-namespace:Packup.View"
+             x:Class="Packup.Page.SchedulingPage"
+             Title="Control de Operación"
+             Padding="20">
+
+    <ContentPage.BindingContext>
+        <Binding Path="SharedModelView">
+            <Binding.Source>
+                <mv:CoreShared/>
+            </Binding.Source>
+        </Binding>
+    </ContentPage.BindingContext>
+
+    <VerticalStackLayout>
+
+        <ListView ItemsSource="{Binding Tags}"
+                  ItemTemplate="{DataTemplate view:TagsView}"
+                  CachingStrategy="RetainElement"/>
+        
+    </VerticalStackLayout>
+</ContentPage>

@@ -5,7 +5,7 @@
           x:Class="Packup.View.TagsView"
           x:Name="tagsView">
 
-    <view:FourColumnsView
+    <view:FourColumnsView TextStyle="{Binding TextStyle, Source={Reference tagsView}}"
                           FirstText="{Binding PalletNumber}"
                           SecondText="{Binding Major}"
                           ThirdText="{Binding Minor}"

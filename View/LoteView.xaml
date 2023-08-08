@@ -8,7 +8,7 @@
           RowDefinitions="*,*"
           Padding="4">
 
-        <view:PalletView Pallet="{Binding ReceivedBoxes}"
+        <view:PalletView Pallet="{Binding BeginPoint}"
                                 HorizontalOptions="Center"
                                 VerticalOptions="Center"
                                 Grid.RowSpan="2"/>

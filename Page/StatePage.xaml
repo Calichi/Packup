@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:mv="clr-namespace:Packup.ModelView"
+             xmlns:m="clr-namespace:Packup.Model"
+             xmlns:view="clr-namespace:Packup.View"
+             x:Class="Packup.Page.StatePage"
+             Title="Control de Operación"
+             BackgroundColor="#e0e0ff">
+
+    <ContentPage.Resources>
+        
+        <Color x:Key="headerColor">#8080cc</Color>
+        <Color x:Key="headerTextColor">#f0f0ff</Color>
+
+        <Style x:Key="centeredLabel" TargetType="{x:Type Label}">
+            <Setter Property="HorizontalTextAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="headerCommonStyle"
+               TargetType="{x:Type Label}"
+               BasedOn="{StaticResource centeredLabel}">
+
+            <Setter Property="BackgroundColor" Value="{StaticResource headerColor}"/>
+            <Setter Property="TextColor" Value="{StaticResource headerTextColor}"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+
+        </Style>
+        
+        
+    </ContentPage.Resources>
+
+    <ContentPage.BindingContext>
+        <Binding Path="SharedModelView">
+            <Binding.Source>
+                <mv:CoreShared/>
+            </Binding.Source>
+        </Binding>
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="1.5*,6*,2.5*"
+          Margin="20"
+          RowSpacing="20">
+
+        <Grid ColumnSpacing="10"
+              ColumnDefinitions="Auto,*">
+
+            <HorizontalStackLayout Spacing="10">
+                <Entry x:Name="entryTagNumber"
+                   Placeholder="Etiqueta"
+                   Keyboard="Numeric"
+                   BackgroundColor="{StaticResource headerTextColor}"
+                   VerticalOptions="Center"/>
+                <Button Text="Capturar"
+                    Command="{Binding SaveStateCommand}"
+                    CommandParameter="{Binding Text, Source={Reference entryTagNumber}}"
+                    VerticalOptions="Center"
+                    BackgroundColor="{StaticResource headerColor}"/>
+            </HorizontalStackLayout>
+
+            <Grid RowDefinitions="Auto,*" ColumnDefinitions="*,*"
+                  BindingContext="{Binding SelectedState}"
+                  Grid.Column="1"
+                  BackgroundColor="{StaticResource headerTextColor}"
+                  VerticalOptions="Center">
+
+                <Grid.Resources>
+                    <Style x:Key="header"
+                           TargetType="{x:Type Label}"
+                           BasedOn="{StaticResource headerCommonStyle}">
+                        <Setter Property="Padding" Value="0,4"/>
+                    </Style>
+
+                    <Style x:Key="content"
+                           TargetType="{x:Type Label}"
+                           BasedOn="{StaticResource centeredLabel}">
+                        <Setter Property="Padding" Value="0,4"/>
+                    </Style>
+
+                </Grid.Resources>
+
+                <Label Text="Etiqueta"
+                       Style="{StaticResource header}"/>
+                <Label Text="{Binding TagNumber}"
+                       Grid.Row="1"
+                       Style="{StaticResource content}"/>
+
+                <Label Text="Hora"
+                       Grid.Column="1"
+                       Style="{StaticResource header}"/>
+                <Label Text="{Binding Timestamp, StringFormat='{0:hh:mm tt}'}"
+                       Grid.Row="1" Grid.Column="1"
+                       Style="{StaticResource content}"/>
+                
+            </Grid>
+            
+        </Grid>
+            
+        <!-- PRODUCTION STATES LIST-->
+
+        <Grid Grid.Row="1"
+              RowDefinitions="Auto,*"
+              RowSpacing="10"
+              BackgroundColor="#f0f0ff">
+
+            <Grid.Resources>
+
+                <Style x:Key="header"
+                       TargetType="{x:Type Label}"
+                       BasedOn="{StaticResource headerCommonStyle}">
+                    
+                    <Setter Property="Padding" Value="0,10"/>
+
+                </Style>
+
+                <Style x:Key="content"
+                       TargetType="{x:Type Label}"
+                       BasedOn="{StaticResource centeredLabel}"/>
+
+            </Grid.Resources>
+
+            <view:FourColumnsView FirstText="Tarima"
+                                  SecondText="Niveles"
+                                  ThirdText="Cajas"
+                                  FourthText="Producción"
+                                  TextStyle="{StaticResource header}"/>
+
+            <ListView ItemsSource="{Binding States}"
+                      SelectedItem="{Binding SelectedState, Mode=TwoWay}" Grid.Row="1">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="{x:Type m:State}">
+                        <ViewCell>
+                            <view:FourColumnsView FirstText="{Binding VisualStructure.Number}"
+                                                  SecondText="{Binding VisualStructure.Levels}"
+                                                  ThirdText="{Binding VisualStructure.Boxes}"
+                                                  FourthText="{Binding ProducedBoxes}"
+                                                  TextStyle="{StaticResource content}"/>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </Grid>
+        <!-- TABLE PRODUCTION -->
+
+        <Grid Grid.Row="2"
+              ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto"
+              HorizontalOptions="Fill"
+              VerticalOptions="Center"
+              BindingContext="{Binding OperationStateReport}"
+              ColumnSpacing="1" BackgroundColor="{StaticResource headerColor}">
+
+            <Grid.Resources>
+
+                <Style x:Key="header" TargetType="{x:Type Label}">
+                    <Setter Property="FontAttributes" Value="Bold"/>
+                    <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                    <Setter Property="Padding" Value="4"/>
+                    <Setter Property="BackgroundColor" Value="{StaticResource headerColor}"/>
+                    <Setter Property="TextColor" Value="#ffffff"/>
+                </Style>
+
+                <ControlTemplate x:Key="productionReportView"
+                                 x:DataType="{x:Type mv:ProductionReport}">
+
+                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="*,*,*"
+                          RowSpacing="4" BackgroundColor="#f0f0f0" Padding="4"
+                          BindingContext="{TemplateBinding BindingContext}">
+
+                        <Label Text="Producido:"/>
+                        <Label Text="{Binding Produced}" HorizontalOptions="Center"
+                               Grid.Column="1"/>
+                        <Label Text="Pendiente:"
+                               Grid.Row="1"/>
+                        <Label Text="{Binding Pending}" HorizontalOptions="Center"
+                               Grid.Row="1" Grid.Column="1"/>
+                        <Label Text="Total:"
+                               Grid.Row="2" HorizontalOptions="End"/>
+                        <Label Text="{Binding Total}" HorizontalOptions="Center"
+                               Grid.Row="2" Grid.Column="1"/>
+
+                    </Grid>
+
+                </ControlTemplate>
+
+            </Grid.Resources>
+
+            <!-- HEADERS -->
+
+            <Label Text="Producción"
+                   Grid.ColumnSpan="2"
+                   Style="{StaticResource header}"/>
+
+            <Label Text="Lote"
+                   Grid.Row="1"
+                   Style="{StaticResource header}"/>
+
+            <Label Text="Tarima"
+                   Grid.Row="1" Grid.Column="1"
+                   Style="{StaticResource header}"/>
+
+            <!-- LOTE COLUMN -->
+
+            <ContentView BindingContext="{Binding LoteProduction}"
+                         ControlTemplate="{StaticResource productionReportView}"
+                         Grid.Row="2"/>
+
+            <!-- TARIMA COLUMN -->
+
+            <ContentView BindingContext="{Binding PalletProduction}"
+                         ControlTemplate="{StaticResource productionReportView}"
+                         Grid.Row="2" Grid.Column="1"/>
+
+        </Grid>
+
+    </Grid>
+
+</ContentPage>

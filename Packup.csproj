@@ -30,6 +30,15 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android|AnyCPU'">
+	  <AndroidPackageFormat>apk</AndroidPackageFormat>
+	  <AndroidEnableMultiDex>False</AndroidEnableMultiDex>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android|AnyCPU'">
+	  <AndroidEnableMultiDex>False</AndroidEnableMultiDex>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
@@ -59,6 +68,9 @@
 	  <Compile Update="Page\LastPalletPage.xaml.cs">
 	    <DependentUpon>LastPalletPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Page\ShedulingPage.xaml.cs">
+	    <DependentUpon>ShedulingPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="View\FourColumnsView.xaml.cs">
 	    <DependentUpon>FourColumnsView.xaml</DependentUpon>
 	  </Compile>
@@ -74,10 +86,13 @@
 	  <MauiXaml Update="Page\LastPalletPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Page\OperationPage.xaml">
+	  <MauiXaml Update="Page\ShedulingPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Page\OperationsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Page\StatePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="View\FlagView.xaml">

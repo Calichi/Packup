@@ -1,4 +1,5 @@
-﻿namespace Packup.Model;
+﻿
+namespace Packup.Model;
 
 public struct LoteParameters : ILoteParameters
 {

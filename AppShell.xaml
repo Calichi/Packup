@@ -17,10 +17,18 @@
             ContentTemplate="{DataTemplate page:OperationsPage}"
             Route="operations"/>
 
-        <ShellContent
-            Title="Operación"
-            ContentTemplate="{DataTemplate page:OperationPage}"
-            Route="operation"/>
+        <Tab Route="operation"
+             Title="Operación">
+
+            <ShellContent Title="Estado"
+                          ContentTemplate="{DataTemplate page:StatePage}"
+                          Route="state"/>
+
+            <ShellContent Title="Planeación"
+                          ContentTemplate="{DataTemplate page:SchedulingPage}"
+                          Route="scheduling"/>
+        </Tab>
+
     </TabBar>
 
 </Shell>
